@@ -1,0 +1,5 @@
+main: uk.co.harieo.minigames.MinigamesCore
+version: 1.0.0
+name: MinigamesCore
+api-version: '1.13'
+author: Harieo
