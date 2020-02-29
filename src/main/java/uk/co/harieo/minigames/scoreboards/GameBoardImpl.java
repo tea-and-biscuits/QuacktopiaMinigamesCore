@@ -124,7 +124,7 @@ public class GameBoardImpl {
 	private void compressText(Team team, String text) throws IllegalArgumentException {
 		// Teams only allow up to 16 chars so we'll split them in half and feed the second half into suffix
 		String prefix = text;
-		String suffix = null; // Anything under 16 doesn't need editing
+		String suffix = ""; // Anything under 16 doesn't need editing
 		if (prefix.length() > 32) { // Using scoreboard content isn't dynamic enough so max at 32
 			throw new IllegalArgumentException("An element had more than 32 characters: " + prefix);
 		} else if (prefix.length() > 16) { // Splitting is required now
@@ -134,9 +134,7 @@ public class GameBoardImpl {
 		}
 
 		team.setPrefix(prefix);
-		if (suffix != null) {
-			team.setSuffix(suffix);
-		}
+		team.setSuffix(suffix);
 	}
 
 	/**

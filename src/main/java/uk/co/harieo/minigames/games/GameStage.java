@@ -7,7 +7,8 @@ public enum GameStage {
 	PRE_GAME("Starting the Game"),
 	IN_GAME("In Game"),
 	POST_GAME("Game is Ending"),
-	ENDING("Game is Over");
+	ENDING("Game is Over"),
+	ERROR("Unavailable");
 
 	private String description;
 	private boolean isAcceptingPlayers;
