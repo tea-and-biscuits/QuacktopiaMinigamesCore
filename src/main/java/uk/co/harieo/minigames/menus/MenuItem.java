@@ -81,7 +81,7 @@ public class MenuItem {
 	 * @param itemStack to get the metadata of
 	 * @return a non-null instance of {@link ItemMeta}
 	 */
-	private ItemMeta getItemMeta(ItemStack itemStack) {
+	public ItemMeta getItemMeta(ItemStack itemStack) {
 		return item.hasItemMeta() ? item.getItemMeta() : Bukkit.getItemFactory().getItemMeta(item.getType());
 	}
 

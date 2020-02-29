@@ -88,6 +88,13 @@ public class Team {
 	}
 
 	/**
+	 * @return the UUIDs of all team members
+	 */
+	public List<UUID> getTeamMembers() {
+		return teamMembers;
+	}
+
+	/**
 	 * @return the amount of players in this team currently
 	 */
 	public int countMembers() {
