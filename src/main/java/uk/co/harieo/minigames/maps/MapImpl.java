@@ -65,17 +65,32 @@ public class MapImpl {
 	 *
 	 * @param location to be removed
 	 */
-	public void removeLocation(Location location) {
-		LocationPair locToRemove = null; // This is to prevent concurrent modification on remove
-		for (LocationPair loc : plottedLocations) {
-			if (loc.compareLocations(location)) {
-				locToRemove = loc;
-			}
-		}
-
+	public void removeFirstLocation(Location location) {
+		LocationPair locToRemove = getFirstLocationPair(
+				location); // This is to prevent concurrent modification on remove
 		if (locToRemove != null) {
 			plottedLocations.remove(locToRemove);
 		}
+	}
+
+	/**
+	 * Removes a location pair directly
+	 *
+	 * @param pair to be removed
+	 */
+	public void removeLocation(LocationPair pair) {
+		plottedLocations.remove(pair);
+	}
+
+	/**
+	 * Removes location pairs based on location and pair key
+	 *
+	 * @param location to compare to location pairs
+	 * @param key to compare to location pairs
+	 */
+	public void removeLocations(Location location, String key) {
+		getByCondition(pair -> pair.compareLocations(location) && pair.getKey().equals(key))
+				.forEach(pair -> plottedLocations.remove(pair));
 	}
 
 	/**
@@ -85,7 +100,7 @@ public class MapImpl {
 	 * @return whether the location was found
 	 */
 	public boolean isLocationPlotted(Location location) {
-		return getLocationPair(location) != null;
+		return getFirstLocationPair(location) != null;
 	}
 
 	/**
@@ -105,13 +120,23 @@ public class MapImpl {
 	 * @param location to get the data for
 	 * @return the matching pair
 	 */
-	public LocationPair getLocationPair(Location location) {
+	public LocationPair getFirstLocationPair(Location location) {
 		List<LocationPair> pairs = getByCondition(pair -> pair.compareLocations(location));
 		if (pairs.isEmpty()) {
 			return null;
 		} else {
 			return pairs.get(0);
 		}
+	}
+
+	/**
+	 * Retrieves all pairs for the given location
+	 *
+	 * @param location to get pairs for
+	 * @return a list of all pairs for the location
+	 */
+	public List<LocationPair> getLocationPairs(Location location) {
+		return getByCondition(pair -> pair.compareLocations(location));
 	}
 
 	/**
