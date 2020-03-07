@@ -1,5 +1,6 @@
 package uk.co.harieo.minigames.teams;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.entity.Player;
 
@@ -92,6 +93,20 @@ public class Team {
 	 */
 	public List<UUID> getTeamMembers() {
 		return teamMembers;
+	}
+
+	/**
+	 * @return a list of members which are online, excluding members which cannot be found
+	 */
+	public List<Player> getOnlineTeamMembers() {
+		List<Player> players = new ArrayList<>();
+		for (UUID uuid : getTeamMembers()) {
+			Player player = Bukkit.getPlayer(uuid);
+			if (player != null) { // If is online
+				players.add(player);
+			}
+		}
+		return players;
 	}
 
 	/**
