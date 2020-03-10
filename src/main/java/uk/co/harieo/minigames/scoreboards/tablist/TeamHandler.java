@@ -114,9 +114,9 @@ public class TeamHandler {
 				Affix affix = optionalAffix.get();
 				if (teams.contains(impl, affix)) { // If the row hasn't been cleared (e.g is still active)
 					Team team = teams.get(impl, affix);
-					if (!team.getEntries().contains(player.getName())) { // If the player isn't already added
-						team.addEntry(player.getName());
-					}
+					// If the player is already added, remove them
+					team.removeEntry(player.getName());
+					team.addEntry(player.getName());
 				}
 			}
 		}
