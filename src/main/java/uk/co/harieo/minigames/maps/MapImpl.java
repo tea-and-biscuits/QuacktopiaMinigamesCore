@@ -219,6 +219,26 @@ public class MapImpl {
 		return authors;
 	}
 
+	/**
+	 * Formats the list of authors into a single string with proper punctuation
+	 *
+	 * @return the formatted string of authors
+	 */
+	public String getAuthorsString() {
+		StringBuilder builder = new StringBuilder();
+		List<String> authors = getAuthors();
+		for (int i = 0; i < authors.size(); i++) {
+			String author = authors.get(i);
+			builder.append(author);
+			if (i + 2 == authors.size()) {
+				builder.append(" and ");
+			} else if (i + 1 < authors.size()) {
+				builder.append(", ");
+			}
+		}
+		return builder.toString();
+	}
+
 	// Finalisation //
 
 	/**
