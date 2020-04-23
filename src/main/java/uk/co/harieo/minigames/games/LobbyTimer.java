@@ -3,17 +3,20 @@ package uk.co.harieo.minigames.games;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import uk.co.harieo.minigames.scoreboards.elements.RenderableElement;
 
-public class LobbyTimer extends Timer {
+public class LobbyTimer extends Timer implements RenderableElement {
 
 	private static final Random RANDOM = new Random();
 
+	private Minigame minigame;
 	private String prefix;
 	private int optimalTime;
 	private int fullTime = 10;
@@ -23,11 +26,12 @@ public class LobbyTimer extends Timer {
 	/**
 	 * An instance of {@link Timer} to countdown to the start of the game
 	 *
-	 * @param plugin which is using this timer
+	 * @param minigame  which is using this timer
 	 * @param maximumDuration the maximum amount of time in seconds that this timer will run
 	 */
-	public LobbyTimer(JavaPlugin plugin, int maximumDuration) {
-		super(plugin, maximumDuration);
+	public LobbyTimer(Minigame minigame, int maximumDuration) {
+		super(minigame, maximumDuration);
+		this.minigame = minigame;
 		optimalTime = maximumDuration;
 		setOnTimerTick(seconds -> onTick());
 	}
@@ -35,10 +39,10 @@ public class LobbyTimer extends Timer {
 	/**
 	 * An instance of this class with the maximum duration set to a default of 30
 	 *
-	 * @param plugin which is using this timer
+	 * @param minigame which is using this timer
 	 */
-	public LobbyTimer(JavaPlugin plugin) {
-		this(plugin, 30);
+	public LobbyTimer(Minigame minigame) {
+		this(minigame, 30);
 	}
 
 	/**
@@ -177,6 +181,17 @@ public class LobbyTimer extends Timer {
 	private void broadcastPing() {
 		Bukkit.getOnlinePlayers().forEach(player -> player.playSound(player.getLocation(),
 				Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.5F, 0.5F));
+	}
+
+	@Override
+	public String getText(Player player) {
+		if (Bukkit.getOnlinePlayers().size() < minigame.getOptimalPlayers() && !isForceStarted()) {
+			return ChatColor.WHITE + "Waiting for Players";
+		} else {
+			int secondsLeft = getSecondsLeft();
+			String word = secondsLeft == 1 ? "second" : "seconds";
+			return ChatColor.WHITE.toString() + secondsLeft + " " + word;
+		}
 	}
 
 }

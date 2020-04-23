@@ -1,20 +1,22 @@
 package uk.co.harieo.minigames.games;
 
-public interface Minigame {
+import org.bukkit.plugin.java.JavaPlugin;
+
+public abstract class Minigame extends JavaPlugin {
 
 	/**
 	 * @return the name of this minigame
 	 */
-	String getMinigameName();
+	public abstract String getMinigameName();
 
 	/**
 	 * @return the absolute maximum amount of players that can play this game
 	 */
-	int getMaxPlayers();
+	public abstract int getMaxPlayers();
 
 	/**
 	 * @return the least amount of players needed for the game to start
 	 */
-	int getOptimalPlayers();
+	public abstract int getOptimalPlayers();
 
 }
