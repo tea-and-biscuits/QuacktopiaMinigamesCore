@@ -1,15 +1,15 @@
-package uk.co.harieo.minigames.games;
+package uk.co.harieo.minigames.timing;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import uk.co.harieo.minigames.games.Minigame;
 import uk.co.harieo.minigames.scoreboards.elements.RenderableElement;
 
 public class LobbyTimer extends Timer implements RenderableElement {
@@ -173,14 +173,6 @@ public class LobbyTimer extends Timer implements RenderableElement {
 	 */
 	private String formatMessage(String message) {
 		return prefix == null ? message : prefix + message;
-	}
-
-	/**
-	 * Plays a ping sound to all online players
-	 */
-	private void broadcastPing() {
-		Bukkit.getOnlinePlayers().forEach(player -> player.playSound(player.getLocation(),
-				Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.5F, 0.5F));
 	}
 
 	@Override

@@ -1,5 +1,7 @@
-package uk.co.harieo.minigames.games;
+package uk.co.harieo.minigames.timing;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -80,6 +82,14 @@ public class Timer extends BukkitRunnable {
 
 	public void setEndInSeconds(int endInSeconds) {
 		this.endInSeconds = endInSeconds;
+	}
+
+	/**
+	 * Plays a ping sound to all online players
+	 */
+	protected void broadcastPing() {
+		Bukkit.getOnlinePlayers().forEach(player -> player.playSound(player.getLocation(),
+				Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.5F, 0.5F));
 	}
 
 }
