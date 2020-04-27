@@ -49,7 +49,7 @@ public class LobbyTimer extends Timer implements RenderableElement {
 	 * Broadcasts the amount of seconds left is the seconds are less than 3 or MOD 10 is 0 (every 10 seconds)
 	 */
 	protected void onTick() {
-		int secondsLeft = getSecondsLeft() + 1; // There is a 1 offset for some reason
+		int secondsLeft = getSecondsLeft(); // There is a 1 offset for some reason
 		if (secondsLeft <= 3 && secondsLeft != 0) {
 			Bukkit.broadcastMessage(formatMessage(
 					ChatColor.GRAY + "The game will start in " + ChatColor.GREEN + secondsLeft + " seconds!"));
