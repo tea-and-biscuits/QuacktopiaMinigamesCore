@@ -52,12 +52,12 @@ public class LobbyTimer extends Timer implements RenderableElement {
 		int secondsLeft = getSecondsLeft(); // There is a 1 offset for some reason
 		if (secondsLeft <= 3 && secondsLeft != 0) {
 			Bukkit.broadcastMessage(formatMessage(
-					ChatColor.GRAY + "The game will start in " + ChatColor.GREEN + secondsLeft + " seconds!"));
+					ChatColor.GRAY + "The game will start in " + ChatColor.YELLOW + secondsLeft + " seconds!"));
 			broadcastPing();
 		} else if (secondsLeft % 10 == 0 && secondsLeft != 0) {
 			String message = countdownMessages.get(RANDOM.nextInt(countdownMessages.size()));
 			Bukkit.broadcastMessage(formatMessage(
-					ChatColor.GRAY + message + ", starting in " + ChatColor.GREEN + secondsLeft
+					ChatColor.GRAY + message + ", starting in " + ChatColor.YELLOW + secondsLeft
 							+ " seconds!"));
 		}
 	}

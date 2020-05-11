@@ -20,11 +20,11 @@ public class GameTimer extends Timer {
 			message = ChatColor.GRAY + "There are only " + ChatColor.YELLOW + "2 minutes " + ChatColor.GRAY
 					+ "remaining!";
 		} else if (seconds == 60) {
-			message = ChatColor.GRAY + "Time is nearly up! Only " + ChatColor.RED + "1 minute " + ChatColor.GRAY
+			message = ChatColor.GRAY + "Time is nearly up! Only " + ChatColor.GOLD + "1 minute " + ChatColor.GRAY
 					+ "remaining!";
 		} else if (seconds != 0 && (seconds == 30 || seconds == 15 || seconds <= 5)) {
 			message = ChatColor.GRAY + "The game will be " + ChatColor.YELLOW + "a draw " + ChatColor.GRAY + "in "
-					+ ChatColor.RED + seconds + " seconds!";
+					+ ChatColor.GOLD + seconds + " seconds!";
 		}
 
 		if (message != null) {
