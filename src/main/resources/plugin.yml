@@ -1,7 +1,7 @@
 main: uk.co.harieo.minigames.MinigamesCore
-version: 1.0.0
+version: 1.0.2
 name: MinigamesCore
-api-version: '1.13'
+api-version: '1.15'
 author: Harieo
 softdepend:
     - QuackConnector
