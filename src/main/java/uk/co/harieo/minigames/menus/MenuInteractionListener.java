@@ -8,7 +8,7 @@ import org.bukkit.inventory.Inventory;
 
 public class MenuInteractionListener implements Listener {
 
-	private MenuFactory factory;
+	private final MenuFactory factory;
 
 	/**
 	 * A generic {@link Listener} which listens for the factory's inventory being clicked then passes the event onto
@@ -27,10 +27,12 @@ public class MenuInteractionListener implements Listener {
 		}
 
 		Player player = (Player) event.getWhoClicked();
-		Inventory inventory = event.getClickedInventory();
-		if (inventory != null && event.getView().getTitle().equals(factory.getInventoryName())) {
+		int slotClicked = event.getSlot();
+		Inventory clickedInventory = event.getView().getInventory(slotClicked);
+
+		if (clickedInventory != null && clickedInventory.equals(factory.getOrCreateMenu(player).getInventory())) {
 			event.setCancelled(true);
-			MenuItem item = factory.getItem(player, event.getSlot());
+			MenuItem item = factory.getItem(player, slotClicked);
 			if (item != null) {
 				item.onClick(player);
 			}

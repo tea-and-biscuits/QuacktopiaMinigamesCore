@@ -2,9 +2,12 @@ package uk.co.harieo.minigames.timing;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class GameTimer extends Timer {
+import uk.co.harieo.minigames.scoreboards.elements.RenderableElement;
+
+public class GameTimer extends Timer implements RenderableElement {
 
 	private String prefix;
 
@@ -39,6 +42,22 @@ public class GameTimer extends Timer {
 
 	private String formatMessage(String message) {
 		return prefix == null ? message : prefix + message;
+	}
+
+	@Override
+	public String getText(Player player) {
+		if (isCancelled()) {
+			return "Waiting...";
+		} else {
+			int timeRemaining = getSecondsLeft();
+			int minutes = timeRemaining / 60;
+			int seconds = timeRemaining % 60;
+			if (seconds == 0) {
+				return minutes + " minutes";
+			} else {
+				return ChatColor.WHITE.toString() + minutes + " minutes, " + seconds + " seconds";
+			}
+		}
 	}
 
 }
