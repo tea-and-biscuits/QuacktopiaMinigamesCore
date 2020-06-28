@@ -79,7 +79,6 @@ public class Hologram {
 	 * location has been set and there is at least 1 line to display.
 	 */
 	public void updateLines() {
-		clearHologram();
 		if (!lines.isEmpty() && location != null) {
 			int lineCount = lines.size();
 			for (int i = 0; i < lineCount; i++) {
