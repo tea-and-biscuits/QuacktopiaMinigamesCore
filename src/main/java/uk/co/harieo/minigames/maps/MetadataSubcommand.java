@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.google.common.collect.Sets;
+import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.util.List;
 import java.util.Set;
@@ -25,7 +26,7 @@ public class MetadataSubcommand implements Subcommand {
 
 	@Override
 	public Set<String> getSubcommandAliases() {
-		return Sets.newHashSet("author", "setname", "commit");
+		return Sets.newHashSet("author", "setname", "commit", "load");
 	}
 
 	@Override
@@ -51,6 +52,9 @@ public class MetadataSubcommand implements Subcommand {
 					break;
 				case "commit":
 					commit(player);
+					break;
+				case "load":
+					load(player);
 					break;
 				default:
 					throw new IllegalArgumentException("Sub-command request with unrecognised alias");
@@ -139,8 +143,8 @@ public class MetadataSubcommand implements Subcommand {
 	}
 
 	/**
-	 * Commits this map to a a file with {@link MapImpl#commitToFile()} and catches any known errors, reporting them
-	 * to the player
+	 * Commits this map to a a file with {@link MapImpl#commitToFile()} and catches any known errors, reporting them to
+	 * the player
 	 *
 	 * @param player who has issued the command
 	 */
@@ -165,6 +169,26 @@ public class MetadataSubcommand implements Subcommand {
 		} else {
 			player.sendMessage(formatMessage(
 					ChatColor.RED + "Your world is not a valid game map, consult '/maps info' for more information"));
+		}
+	}
+
+	/**
+	 * Parses the world a player is in for a {@link MapImpl} which loads all its metadata, if it exists
+	 *
+	 * @param player who has issued the command
+	 */
+	private void load(Player player) {
+		try {
+			MapImpl map = MapImpl.parseWorld(player.getWorld());
+			if (map != null) {
+				player.sendMessage(formatMessage(
+						ChatColor.GRAY + "Loaded " + ChatColor.GREEN + map.getFullName() + ChatColor.GRAY
+								+ " successfully!"));
+			} else {
+				player.sendMessage(formatMessage(ChatColor.RED + "Failed to load world due to an unknown error!"));
+			}
+		} catch (IOException e) {
+			player.sendMessage(formatMessage(ChatColor.RED + "An error occurred loading the world"));
 		}
 	}
 
