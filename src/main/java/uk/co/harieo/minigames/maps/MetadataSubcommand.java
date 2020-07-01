@@ -134,7 +134,7 @@ public class MetadataSubcommand implements Subcommand {
 				nameBuilder.append(args[i]);
 				nameBuilder.append(" ");
 			}
-			String name = nameBuilder.toString();
+			String name = nameBuilder.toString().trim();
 
 			MapImpl map = MapImpl.get(player.getWorld());
 			map.setFullName(name);
