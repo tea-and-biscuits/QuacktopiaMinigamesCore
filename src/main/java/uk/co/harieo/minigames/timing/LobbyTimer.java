@@ -2,21 +2,20 @@ package uk.co.harieo.minigames.timing;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
-import uk.co.harieo.minigames.games.Minigame;
+import uk.co.harieo.minigames.games.DefaultMinigame;
 import uk.co.harieo.minigames.scoreboards.elements.RenderableElement;
 
 public class LobbyTimer extends Timer implements RenderableElement {
 
 	private static final Random RANDOM = new Random();
 
-	private Minigame minigame;
+	private DefaultMinigame minigame;
 	private String prefix;
 	private int optimalTime;
 	private int fullTime = 10;
@@ -29,7 +28,7 @@ public class LobbyTimer extends Timer implements RenderableElement {
 	 * @param minigame  which is using this timer
 	 * @param maximumDuration the maximum amount of time in seconds that this timer will run
 	 */
-	public LobbyTimer(Minigame minigame, int maximumDuration) {
+	public LobbyTimer(DefaultMinigame minigame, int maximumDuration) {
 		super(minigame, maximumDuration);
 		this.minigame = minigame;
 		optimalTime = maximumDuration;
@@ -41,7 +40,7 @@ public class LobbyTimer extends Timer implements RenderableElement {
 	 *
 	 * @param minigame which is using this timer
 	 */
-	public LobbyTimer(Minigame minigame) {
+	public LobbyTimer(DefaultMinigame minigame) {
 		this(minigame, 30);
 	}
 
