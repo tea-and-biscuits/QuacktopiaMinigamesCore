@@ -17,7 +17,11 @@ public class Hotbar {
 	 * @return the item which goes in the specified slot, if any
 	 */
 	public MenuItem getItem(int slot) {
-		return hotbarItems[slot];
+		if (slot < hotbarItems.length) {
+			return hotbarItems[slot];
+		} else {
+			return null;
+		}
 	}
 
 	/**

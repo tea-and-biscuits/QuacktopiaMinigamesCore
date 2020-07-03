@@ -8,6 +8,22 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public abstract class DefaultMinigame extends JavaPlugin implements Minigame {
 
+	private GameStage gameStage = GameStage.ERROR;
+
+	@Override
+	public GameStage getGameStage() {
+		return gameStage;
+	}
+
+	/**
+	 * Sets the stage that this minigame is at
+	 *
+	 * @param gameStage to set the stage to
+	 */
+	public void setGameStage(GameStage gameStage) {
+		this.gameStage = gameStage;
+	}
+
 	/**
 	 * Registers an array of listeners with the plugin handler
 	 *

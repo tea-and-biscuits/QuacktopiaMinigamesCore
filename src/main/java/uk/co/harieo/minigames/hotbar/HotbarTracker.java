@@ -7,11 +7,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.Inventory;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import uk.co.harieo.minigames.menus.MenuItem;
 
 /**
@@ -56,6 +56,13 @@ public class HotbarTracker implements Listener {
 				event.setCancelled(true);
 				menuItem.onClick(player);
 			}
+		}
+	}
+
+	@EventHandler
+	public void onHotbarSwitch(PlayerSwapHandItemsEvent event) {
+		if (currentHotbars.containsKey(event.getPlayer())) {
+			event.setCancelled(true); // Prevent moving items if a hotbar is active
 		}
 	}
 
