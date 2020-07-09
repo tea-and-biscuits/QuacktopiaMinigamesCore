@@ -212,7 +212,7 @@ public class GameBoardImpl {
 						<= maxSplit) { // If the entire string fits into the suffix
 					suffixBuffer.append(element);
 				} else {
-					throw new IllegalStateException("Elements don't fit a 15:15 split");
+					throw new IllegalStateException("Elements don't fit a " + maxSplit + "-character split");
 				}
 			}
 
