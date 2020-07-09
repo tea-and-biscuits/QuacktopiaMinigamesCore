@@ -181,7 +181,7 @@ public class GameBoardImpl {
 				int currentPrefixLength = prefixBuffer.length();
 				int currentSuffixLength = suffixBuffer.length();
 
-				boolean hasSuffix = currentSuffixLength == 0;
+				boolean hasNoSuffix = currentSuffixLength == 0;
 
 				if (!element
 						.contains(String.valueOf(ChatColor.COLOR_CHAR))) { // If this string isn't a colour code
@@ -190,7 +190,7 @@ public class GameBoardImpl {
 					int suffixLengthDifference = 15 - currentSuffixLength;
 
 					int subIndex = 0;
-					if (prefixLengthDifference > 0 && hasSuffix) { // Don't add to prefix if using suffix
+					if (prefixLengthDifference > 0 && hasNoSuffix) { // Don't add to prefix if using suffix
 						subIndex = prefixLengthDifference;
 						if (subIndex >= elementLength) {
 							subIndex = elementLength;
@@ -205,7 +205,7 @@ public class GameBoardImpl {
 								Math.min(suffixIndexEnd, elementLength));
 					}
 				} else if (currentPrefixLength + elementLength <= 15
-						&& hasSuffix) { // If the entire string fits into the prefix
+						&& hasNoSuffix) { // If the entire string fits into the prefix
 					prefixBuffer.append(element);
 				} else if (currentSuffixLength + elementLength <= 15) { // If the entire string fits into the suffix
 					suffixBuffer.append(element);
