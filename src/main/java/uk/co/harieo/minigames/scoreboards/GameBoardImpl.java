@@ -119,16 +119,18 @@ public class GameBoardImpl {
 	 *
 	 * @param team to put the compressed text into
 	 * @param text to be compressed
-	 * @throws IllegalArgumentException if the string was more than 32 characters, including after compression
+	 * @throws IllegalArgumentException if the string was more than the maximum allowed characters, including after
+	 * compression
 	 */
 	private void compressText(Team team, String text) throws IllegalArgumentException {
 		// Teams only allow up to 16 chars so we'll split them in half and feed the second half into suffix
 		String prefix = text;
 		String suffix = null;
 
-		if (prefix.length() > 32) { // Using scoreboard content isn't dynamic enough so max at 32
-			throw new IllegalArgumentException("An element had more than 32 characters: " + prefix);
-		} else if (prefix.length() > 16) { // Splitting is required now
+		int maxSplit = 16; // The maximum amount of characters allowed in either the prefix or suffix
+		if (prefix.length() > maxSplit * 2) { // Using scoreboard content isn't dynamic enough so max at 32
+			throw new IllegalArgumentException("An element had more than " + (maxSplit * 2) + " characters: " + prefix);
+		} else if (prefix.length() > maxSplit) { // Splitting is required now
 			char[] textChars = text.toCharArray();
 			List<String> textElements = new ArrayList<>();
 
@@ -183,11 +185,10 @@ public class GameBoardImpl {
 
 				boolean hasNoSuffix = currentSuffixLength == 0;
 
-				if (!element
-						.contains(String.valueOf(ChatColor.COLOR_CHAR))) { // If this string isn't a colour code
+				if (!element.contains(String.valueOf(ChatColor.COLOR_CHAR))) { // If this string isn't a colour code
 					// Attempt to split the string into two pieces for the prefix and suffix
-					int prefixLengthDifference = 15 - currentPrefixLength;
-					int suffixLengthDifference = 15 - currentSuffixLength;
+					int prefixLengthDifference = maxSplit - currentPrefixLength;
+					int suffixLengthDifference = maxSplit - currentSuffixLength;
 
 					int subIndex = 0;
 					if (prefixLengthDifference > 0 && hasNoSuffix) { // Don't add to prefix if using suffix
@@ -204,10 +205,11 @@ public class GameBoardImpl {
 						suffixBuffer.append(element, subIndex,
 								Math.min(suffixIndexEnd, elementLength));
 					}
-				} else if (currentPrefixLength + elementLength <= 15
+				} else if (currentPrefixLength + elementLength <= maxSplit
 						&& hasNoSuffix) { // If the entire string fits into the prefix
 					prefixBuffer.append(element);
-				} else if (currentSuffixLength + elementLength <= 15) { // If the entire string fits into the suffix
+				} else if (currentSuffixLength + elementLength
+						<= maxSplit) { // If the entire string fits into the suffix
 					suffixBuffer.append(element);
 				} else {
 					throw new IllegalStateException("Elements don't fit a 15:15 split");
