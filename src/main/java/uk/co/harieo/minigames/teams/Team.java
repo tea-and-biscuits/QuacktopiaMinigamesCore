@@ -1,10 +1,7 @@
 package uk.co.harieo.minigames.teams;
 
-import org.bukkit.Color;
-
 import java.util.Collection;
 import java.util.UUID;
-import net.md_5.bungee.api.ChatColor;
 
 public interface Team {
 
@@ -16,20 +13,16 @@ public interface Team {
 	/**
 	 * @return the chat color for this team
 	 */
-	ChatColor getChatColor();
+	ColourGroup getColour();
 
 	/**
 	 * @return a coloured version of {@link #getName()} with the word 'Team' on the end, on the assumption that this
 	 * word isn't included in the name itself
 	 */
 	default String getFormattedName() {
-		return getChatColor() + getName() + " Team";
+		return getColour().getChatColor() + getName() + " Team";
 	}
 
-	/**
-	 * @return the armor color for this team
-	 */
-	Color getArmorColor();
 
 	/**
 	 * Checks whether the specified player is a member of this team

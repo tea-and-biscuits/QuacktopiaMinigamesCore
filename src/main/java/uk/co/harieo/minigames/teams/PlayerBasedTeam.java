@@ -1,17 +1,14 @@
 package uk.co.harieo.minigames.teams;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
 import org.bukkit.entity.Player;
 
 import java.util.*;
-import net.md_5.bungee.api.ChatColor;
 
 public class PlayerBasedTeam implements Team {
 
 	private final String teamName;
-	private final ChatColor chatColor;
-	private final Color armorColor;
+	private final ColourGroup teamColour;
 	private final Spawns spawns = new Spawns();
 
 	private final Set<UUID> teamMembers = new HashSet<>();
@@ -21,13 +18,11 @@ public class PlayerBasedTeam implements Team {
 	 * are online and readily available
 	 *
 	 * @param teamName of the team
-	 * @param teamColor to color team text
-	 * @param armorColor to color team armour
+	 * @param colourGroup the colour which represents this team
 	 */
-	public PlayerBasedTeam(String teamName, ChatColor teamColor, Color armorColor) {
+	public PlayerBasedTeam(String teamName, ColourGroup colourGroup) {
 		this.teamName = teamName;
-		this.chatColor = teamColor;
-		this.armorColor = armorColor;
+		this.teamColour = colourGroup;
 	}
 
 	/**
@@ -38,20 +33,9 @@ public class PlayerBasedTeam implements Team {
 		return teamName;
 	}
 
-	/**
-	 * @return the chat color for this team
-	 */
 	@Override
-	public ChatColor getChatColor() {
-		return chatColor;
-	}
-
-	/**
-	 * @return the armor color for this team
-	 */
-	@Override
-	public Color getArmorColor() {
-		return armorColor;
+	public ColourGroup getColour() {
+		return teamColour;
 	}
 
 	/**
