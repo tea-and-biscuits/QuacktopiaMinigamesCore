@@ -69,7 +69,11 @@ public class GameBoardImpl {
 	 */
 	void start() {
 		for (int slot : elements.keySet()) {
-			createTeam(slot);
+			Team team = scoreboard.registerNewTeam("line" + slot);
+			String lineColor = ChatColor.values()[slot].toString();
+			team.addEntry(lineColor); // Same as the line it will be on
+			objective.getScore(lineColor).setScore(slot);
+			teams.put(slot, team);
 		}
 
 		if (beforeRender != null) {
@@ -222,21 +226,6 @@ public class GameBoardImpl {
 		} else {
 			team.setSuffix("");
 		}
-	}
-
-	/**
-	 * Creates a team for a certain slot in the scoreboard based on values registered in this class's fields
-	 *
-	 * @param slot to create a team for
-	 * @return the created team
-	 */
-	private Team createTeam(int slot) {
-		Team team = scoreboard.registerNewTeam("line" + slot);
-		String lineColor = ChatColor.values()[slot].toString();
-		team.addEntry(lineColor); // Same as the line it will be on
-		objective.getScore(lineColor).setScore(slot);
-		teams.put(slot, team);
-		return team;
 	}
 
 	/**
