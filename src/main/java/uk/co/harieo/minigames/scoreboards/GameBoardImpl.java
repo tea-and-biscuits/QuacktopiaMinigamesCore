@@ -205,14 +205,26 @@ public class GameBoardImpl {
 						suffixBuffer.append(element, subIndex,
 								Math.min(suffixIndexEnd, elementLength));
 					}
-				} else if (currentPrefixLength + elementLength <= maxSplit
-						&& hasNoSuffix) { // If the entire string fits into the prefix
-					prefixBuffer.append(element);
-				} else if (currentSuffixLength + elementLength
-						<= maxSplit) { // If the entire string fits into the suffix
-					suffixBuffer.append(element);
 				} else {
-					throw new IllegalStateException("Elements don't fit a " + maxSplit + "-character split");
+					boolean forceOverflow = false; // Whether to force this element into the suffix
+					int nextIndex = textElements.indexOf(element) + 1;
+					if (nextIndex < textElements.size()) { // If there is a next element
+						// If this element (a colour code) plus the next element (unknown type) will breach the prefix limit
+						if (currentPrefixLength + elementLength >= maxSplit) {
+							// Then prevent the colour code being split from the next element
+							forceOverflow = true;
+						}
+					}
+
+					if (!forceOverflow && currentPrefixLength + elementLength <= maxSplit
+							&& hasNoSuffix) { // If the entire string fits into the prefix
+						prefixBuffer.append(element);
+					} else if (currentSuffixLength + elementLength
+							<= maxSplit) { // If the entire string fits into the suffix
+						suffixBuffer.append(element);
+					} else {
+						throw new IllegalStateException("Elements don't fit a " + maxSplit + "-character split");
+					}
 				}
 			}
 
