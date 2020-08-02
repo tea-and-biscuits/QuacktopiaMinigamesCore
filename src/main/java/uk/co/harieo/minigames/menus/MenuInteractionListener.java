@@ -22,19 +22,21 @@ public class MenuInteractionListener implements Listener {
 
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {
-		if (!(event.getWhoClicked() instanceof Player)) {
-			return; // Should never happen but better safe...
-		}
+		if (event.getWhoClicked() instanceof Player) {
+			Player player = (Player) event.getWhoClicked();
+			int slotClicked = event.getSlot();
 
-		Player player = (Player) event.getWhoClicked();
-		int slotClicked = event.getSlot();
-		Inventory clickedInventory = event.getClickedInventory();
+			Inventory clickedInventory = event.getClickedInventory();
+			Inventory factoryInventory = factory.getOrCreateMenu(player).getInventory();
 
-		if (clickedInventory != null && clickedInventory.equals(factory.getOrCreateMenu(player).getInventory())) {
-			event.setCancelled(true);
-			MenuItem item = factory.getItem(player, slotClicked);
-			if (item != null) {
-				item.onClick(player);
+			if (clickedInventory != null && clickedInventory.equals(factoryInventory)) {
+				event.setCancelled(true);
+				MenuItem item = factory.getItem(player, slotClicked);
+				if (item != null) {
+					item.onClick(player);
+				}
+			} else if (event.isShiftClick() && event.getView().getTopInventory().equals(factoryInventory)) {
+				event.setCancelled(true); // Stop items merging with the factory inventory
 			}
 		}
 	}
