@@ -15,9 +15,9 @@ public class TeamHandler<T extends Team> {
 	private final int playersPerTeam;
 
 	/**
-	 * A handler which more efficiently stores what {@link PlayerBasedTeam} a {@link Player} is in and handles assigning that
-	 * player a team where needed. This class uses {@link UUID} for representing a Player so that offline players are
-	 * supported.
+	 * A handler which more efficiently stores what {@link PlayerBasedTeam} a {@link Player} is in and handles assigning
+	 * that player a team where needed. This class uses {@link UUID} for representing a Player so that offline players
+	 * are supported.
 	 *
 	 * @param teams all the possible teams a player can join
 	 * @param playersPerTeam the maximum amount of players that can join a team
@@ -46,7 +46,7 @@ public class TeamHandler<T extends Team> {
 	public T assignTeam(Player player, Predicate<T> predicate) {
 		boolean usePredicate = predicate != null;
 		for (T team : allTeams) {
-			if ((usePredicate && predicate.test(team)) && team.getTeamSize() < playersPerTeam) {
+			if ((!usePredicate || predicate.test(team)) && team.getTeamSize() < playersPerTeam) {
 				setTeam(player, team);
 				return team;
 			}
