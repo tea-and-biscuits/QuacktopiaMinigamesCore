@@ -17,7 +17,7 @@ import java.util.function.Consumer;
  */
 public class MenuItem {
 
-	private ItemStack item;
+	private final ItemStack item;
 	private Consumer<Player> onClick;
 
 	/**
@@ -58,6 +58,16 @@ public class MenuItem {
 	 */
 	public MenuItem(ItemStack item) {
 		this.item = item;
+	}
+
+	/**
+	 * Clones the instance of this class
+	 *
+	 * @param item to be cloned
+	 */
+	public MenuItem(MenuItem item) {
+		this(item.getItem());
+		this.onClick = item.onClick;
 	}
 
 	/**

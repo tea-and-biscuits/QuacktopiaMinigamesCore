@@ -8,7 +8,7 @@ import org.bukkit.inventory.Inventory;
 
 public class MenuInteractionListener implements Listener {
 
-	private MenuFactory factory;
+	private final MenuFactory factory;
 
 	/**
 	 * A generic {@link Listener} which listens for the factory's inventory being clicked then passes the event onto
@@ -22,17 +22,21 @@ public class MenuInteractionListener implements Listener {
 
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {
-		if (!(event.getWhoClicked() instanceof Player)) {
-			return; // Should never happen but better safe...
-		}
+		if (event.getWhoClicked() instanceof Player) {
+			Player player = (Player) event.getWhoClicked();
+			int slotClicked = event.getSlot();
 
-		Player player = (Player) event.getWhoClicked();
-		Inventory inventory = event.getClickedInventory();
-		if (inventory != null && event.getView().getTitle().equals(factory.getInventoryName())) {
-			event.setCancelled(true);
-			MenuItem item = factory.getItem(player, event.getSlot());
-			if (item != null) {
-				item.onClick(player);
+			Inventory clickedInventory = event.getClickedInventory();
+			Inventory factoryInventory = factory.getOrCreateMenu(player).getInventory();
+
+			if (clickedInventory != null && clickedInventory.equals(factoryInventory)) {
+				event.setCancelled(true);
+				MenuItem item = factory.getItem(player, slotClicked);
+				if (item != null) {
+					item.onClick(player);
+				}
+			} else if (event.isShiftClick() && event.getView().getTopInventory().equals(factoryInventory)) {
+				event.setCancelled(true); // Stop items merging with the factory inventory
 			}
 		}
 	}

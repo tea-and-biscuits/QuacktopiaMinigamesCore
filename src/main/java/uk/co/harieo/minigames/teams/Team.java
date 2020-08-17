@@ -1,126 +1,64 @@
 package uk.co.harieo.minigames.teams;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.UUID;
-import net.md_5.bungee.api.ChatColor;
 
-public class Team {
-
-	private String teamName;
-	private ChatColor chatColor;
-	private Color armorColor;
-	private int maxMembers;
-
-	private List<UUID> teamMembers = new ArrayList<>();
-
-	/**
-	 * A team of players grouped with a given team name and colour
-	 *
-	 * @param teamName of the team
-	 * @param teamColor to color team text
-	 * @param armorColor to color team armour
-	 */
-	public Team(String teamName, ChatColor teamColor, Color armorColor, int maxMembers) {
-		this.teamName = teamName;
-		this.chatColor = teamColor;
-		this.armorColor = armorColor;
-		this.maxMembers = maxMembers;
-	}
+public interface Team {
 
 	/**
 	 * @return the unformatted name of this team
 	 */
-	public String getTeamName() {
-		return teamName;
-	}
+	String getName();
 
 	/**
 	 * @return the chat color for this team
 	 */
-	public ChatColor getChatColor() {
-		return chatColor;
-	}
+	ColourGroup getColour();
 
 	/**
-	 * @return the armor color for this team
+	 * @return a coloured version of {@link #getName()} with the word 'Team' on the end, on the assumption that this
+	 * word isn't included in the name itself
 	 */
-	public Color getArmorColor() {
-		return armorColor;
+	default String getFormattedName() {
+		return getColour().getChatColor() + getName() + " Team";
 	}
 
-	/**
-	 * @return the maximum amount of members this team can have
-	 */
-	public int getMaxMembers() {
-		return maxMembers;
-	}
 
 	/**
 	 * Checks whether the specified player is a member of this team
 	 *
-	 * @param player to check membership of
-	 * @return whether the given player is a member of this team
+	 * @param uuid of the player to check the membership of
+	 * @return whether the uuid is from a member of this team
 	 */
-	public boolean isTeamMember(Player player) {
-		return teamMembers.contains(player.getUniqueId());
-	}
+	boolean isMember(UUID uuid);
 
 	/**
 	 * Adds the specified player to the list of team members
 	 *
-	 * @param player to be added
+	 * @param uuid of the player to add
 	 */
-	public void addTeamMember(Player player) {
-		teamMembers.add(player.getUniqueId());
-	}
+	void addMember(UUID uuid);
 
 	/**
 	 * Removes the specified player from the list of team members, if they are on it
 	 *
-	 * @param player to be removed from the team
+	 * @param uuid of the player to remove
 	 */
-	public void removeTeamMember(Player player) {
-		teamMembers.remove(player.getUniqueId());
-	}
+	void removeMember(UUID uuid);
 
 	/**
 	 * @return the UUIDs of all team members
 	 */
-	public List<UUID> getTeamMembers() {
-		return teamMembers;
-	}
+	Collection<UUID> getMembers();
 
 	/**
-	 * @return a list of members which are online, excluding members which cannot be found
+	 * @return the amount of members in this team
 	 */
-	public List<Player> getOnlineTeamMembers() {
-		List<Player> players = new ArrayList<>();
-		for (UUID uuid : getTeamMembers()) {
-			Player player = Bukkit.getPlayer(uuid);
-			if (player != null) { // If is online
-				players.add(player);
-			}
-		}
-		return players;
-	}
+	int getTeamSize();
 
 	/**
-	 * @return the amount of players in this team currently
+	 * @return the spawn location handler for this team's spawn points
 	 */
-	public int countMembers() {
-		return teamMembers.size();
-	}
-
-	/**
-	 * @return whether the amount of members equals or exceeds the maximum allowed
-	 */
-	public boolean isFull() {
-		return countMembers() >= getMaxMembers();
-	}
+	Spawns getSpawns();
 
 }

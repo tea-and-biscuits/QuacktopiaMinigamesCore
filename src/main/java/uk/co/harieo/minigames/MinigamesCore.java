@@ -1,6 +1,7 @@
 package uk.co.harieo.minigames;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import uk.co.harieo.QuackConnector.QuackConnector;
@@ -18,6 +19,12 @@ public class MinigamesCore extends JavaPlugin {
 		if (isConnectorEnabled) {
 			QuackConnector.getInstance().setAcceptingPlayers(isAcceptingPlayers);
 			System.out.println("This server is " + (isAcceptingPlayers ? "now accepting players" : "no longer accepting players"));
+		}
+	}
+
+	public static void sendPlayerToFallbackServer(Player player) {
+		if (isConnectorEnabled) {
+			QuackConnector.getInstance().sendToFallback(player);
 		}
 	}
 

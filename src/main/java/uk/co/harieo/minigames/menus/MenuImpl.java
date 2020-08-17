@@ -12,9 +12,9 @@ import org.bukkit.inventory.Inventory;
  */
 public class MenuImpl {
 
-	private MenuFactory factory;
+	private final MenuFactory factory;
+	private final Inventory inventory;
 	private Player player;
-	private Inventory inventory;
 
 	/**
 	 * An implementation of {@link Inventory} for a Player
@@ -56,6 +56,7 @@ public class MenuImpl {
 	 * Displays the current {@link Inventory} to the Player
 	 */
 	public void showInventory() {
+		player.getOpenInventory().close();
 		player.openInventory(inventory);
 	}
 

@@ -17,4 +17,9 @@ public interface Minigame {
 	 */
 	int getOptimalPlayers();
 
+	/**
+	 * @return the current stage this game is in
+	 */
+	GameStage getGameStage();
+
 }
