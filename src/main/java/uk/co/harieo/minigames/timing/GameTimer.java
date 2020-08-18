@@ -11,12 +11,21 @@ public class GameTimer extends Timer implements RenderableElement {
 
 	private String prefix;
 
+	/**
+	 * A timer which is formatted for counting down to the end of a game
+	 *
+	 * @param plugin which is using this timer
+	 * @param endInSeconds the seconds until this timer ends
+	 */
 	public GameTimer(JavaPlugin plugin, int endInSeconds) {
 		super(plugin, endInSeconds);
-		setOnTimerTick(tick -> onTick());
+		setOnTimerTick(tick -> announceTimeLeft());
 	}
 
-	private void onTick() {
+	/**
+	 * Announces to the entire server at certain intervals of time remaining, starting at 2 minutes
+	 */
+	protected void announceTimeLeft() {
 		String message = null;
 		int seconds = getSecondsLeft();
 		if (seconds == 120) {
@@ -36,10 +45,21 @@ public class GameTimer extends Timer implements RenderableElement {
 		}
 	}
 
+	/**
+	 * Sets the prefix to use at the start of system messages from this timer
+	 *
+	 * @param prefix to go before system messages
+	 */
 	public void setPrefix(String prefix) {
 		this.prefix = prefix;
 	}
 
+	/**
+	 * Adds the prefix, if set, to the given message
+	 *
+	 * @param message to add the prefix before
+	 * @return the formatted message
+	 */
 	private String formatMessage(String message) {
 		return prefix == null ? message : prefix + message;
 	}
