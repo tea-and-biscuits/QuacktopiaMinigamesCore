@@ -7,6 +7,7 @@ import org.bukkit.scoreboard.Team;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import java.util.Map;
 import java.util.Optional;
 import uk.co.harieo.minigames.scoreboards.GameBoardImpl;
 import uk.co.harieo.minigames.scoreboards.tablist.modules.Affix;
@@ -109,14 +110,19 @@ public class TeamHandler {
 	public void injectPlayer(Player player) {
 		Optional<Affix> optionalAffix = this.processor.getAffixForPlayer(player);
 		for (GameBoardImpl impl : teams.rowKeySet()) {
+			Map<Affix, Team> row = teams.row(impl);
 			if (optionalAffix
 					.isPresent()) { // If this is not present, assume the player shouldn't be handled in this case
 				Affix affix = optionalAffix.get();
-				if (teams.contains(impl, affix)) { // If the row hasn't been cleared (e.g is still active)
-					Team team = teams.get(impl, affix);
+				if (row.containsKey(affix)) { // If the row hasn't been cleared (e.g is still active)
+					Team team = row.get(affix);
 					// If the player is already added, remove them
 					team.removeEntry(player.getName());
 					team.addEntry(player.getName());
+				}
+			} else {
+				for (Team team : row.values()) {
+					team.removeEntry(player.getName());
 				}
 			}
 		}
